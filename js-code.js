@@ -78,8 +78,71 @@ const computerPlayer = (function() {
                 return hardMove(board, symbol);
             }
         }
+
+        function easyMove(board, symbol) {
+            let availableMoves = [];
+            for (let row = 0; row < 3; row++) {
+                for(let col = 0; col < 3; col++) {
+                    if (board[row][col] === '') {
+                        availableMoves.push({ row, col});
+                    }
+                }
+            }
+            const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            board.placeSymbol(randomMove.row, randomMove.col, symbol);
+            return randomMove;
+        }
+
+        function mediumMove(board, symbol) {
+            const shouldBlock = Math.random() > 0.5;
+
+            if (shouldBlock && blockPlayer(board)) {
+                return;
+            } else {
+                return easyMove(board, symbol)
+            }
+        }
+
+        function blockPlayer(board){
+            const playerSymbol = 'X';
+            const opponentSymbol = 'O';
+
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 3; col++) {
+                    if(board[row][col] === '') {
+                        // Temporarily place the player's symbol
+                        board.placeSymbol(row, col, playerSymbol);
+                        if (board.checkWinOrTie() === playerSymbol) {
+                            // Block the player's winning move
+                            board.placeSymbol(row, col, opponentSymbol);
+                            return {row, col};
+                        } else {
+                            // Revert temporary placement
+                            board.placeSymbol(row, col, '');
+                        }
+                    }
+                }
+            }
+            return false;
+
+        }
+
+        function hardMove(board, symbol) {
+            const shouldBlock = Math.random() > 0.25;
+
+            if(shouldBlock && blockPlayer(board)) {
+                return;
+            } else {
+                return easyMove(board, symbol);
+            }
+
+        } 
+
+        return { computerMove };
     }
-})
+
+    return { createComputerPlayer };
+})();
 
 
 
