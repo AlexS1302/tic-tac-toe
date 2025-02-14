@@ -12,4 +12,74 @@ body {
     background-image: url(images/background-image.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 55px;
+}
+
+h1 {
+    color: white;
+    font-size: 2.5em;
+    margin-bottom: 0;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    border: 1px solid lightgrey;
+}
+
+.difficulty-container {
+    display: flex;
+    gap: 30px;
+}
+
+#reset {
+    background-image: linear-gradient(to right, #ddd6f3 0%, #faaca8  51%, #ddd6f3  100%)
+}
+
+button { 
+    border-radius: 10px;
+    border: none;
+    padding: 15px 25px;
+    font-weight: 600;
+    font-size: 1.1em;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    will-change: transform;
+    background-image: linear-gradient(to right, #A3CBE8 0%, #A5E1E0 51%, #A3CBE8 100%);
+    transition-duration: 0.5s;
+    background-size: 200% auto;
+    cursor: pointer;
+    color: #fff;
+}
+
+button:hover {
+    background-position: right center;
+    color: #fff;
+}
+
+.cell {
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.cell:hover {
+    transform: scale(1.05);
 }

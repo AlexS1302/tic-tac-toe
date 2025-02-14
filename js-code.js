@@ -1,4 +1,17 @@
 
+const board = document.querySelector(".board");
+
+// Create board on page
+function createBoard() {
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        board.appendChild(cell);   
+    }
+}
+
+createBoard();
+
 // Gameboard
 const gameBoard = (function () {
     function createGameboard() {
