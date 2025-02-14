@@ -42,7 +42,15 @@ const gameBoard = (function () {
 
         }
 
-        return {board, placeSymbol, checkWinOrTie};
+        function resetBoard() {
+            for (let row = 0; row < board.length; row++) {
+                for (let col = 0; col < board[row].length; col++) {
+                    board[row][col] = '';
+                }
+            }
+        }
+
+        return {board, placeSymbol, checkWinOrTie, resetBoard};
     }
 
     return {createGameboard};
@@ -57,8 +65,25 @@ const Player = (function() {
     return {createPlayer};
 })();
 
-// Game Control
+// Computer Player & Difficulty
 
+const computerPlayer = (function() {
+    function createComputerPlayer(difficulty) {
+        function computerMove(board, symbol) {
+            if (difficulty === 'Easy') {
+                return easyMove(board, symbol);
+            } else if (difficulty === 'Medium') {
+                return mediumMove(board, symbol); 
+            } else if (difficulty === 'Hard') {
+                return hardMove(board, symbol);
+            }
+        }
+    }
+})
+
+
+
+// Game Control
 const gameControl = (function() {
     function createGame() {
         const board =  gameBoard.createGameboard();
@@ -68,6 +93,10 @@ const gameControl = (function() {
 
         function addPlayer(player) {
             players.push(player)
+        }
+
+        function addComputerPlayer(difficulty) {
+            computerPlayer = computerPlayer.createComputerPlayer(difficulty);
         }
 
         function getCurrentPlayer() {
@@ -104,25 +133,14 @@ const gameControl = (function() {
 })();
 
 const player1 = Player.createPlayer('Player 1', 'X');
-const player2 = Player.createPlayer('Player 2', 'O');
+const player2 = Player.createPlayer('Computer', 'O');
 
 // Initialise the game
 const game = gameControl.createGame();
 game.addPlayer(player1);
-game.addPlayer(player2);
+game.addComputerPlayer('Easy');
 
 console.log(`Current Player: ${game.getCurrentPlayer().name}`);
 game.playMove(0, 0);
 
-console.log(`Current Player: ${game.getCurrentPlayer().name}`);
-game.playMove(1, 1);
-
-console.log(`Current Player: ${game.getCurrentPlayer().name}`);
-game.playMove(0, 1);
-
-console.log(`Current Player: ${game.getCurrentPlayer().name}`);
-game.playMove(2, 2);
-
-console.log(`Current Player: ${game.getCurrentPlayer().name}`);
-game.playMove(0, 2);
 
