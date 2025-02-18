@@ -17,32 +17,87 @@ const winningPatterns = [
 //Event Listeners
 
 easyButton.addEventListener('click', function() {
-    let gameDifficulty = 'easy'
+    let gameDifficulty = 'easy';
     console.log('Difficulty set to Easy');
 });
 
 mediumButton.addEventListener('click', function() {
-    let gameDifficulty = 'medium'
+    let gameDifficulty = 'medium';
     console.log('Difficulty set to Medium');
 });
 
 hardButton.addEventListener('click', function() {
-    let gameDifficulty = 'hard'
+    let gameDifficulty = 'hard';
     console.log('Difficulty set to Hard');
 });
 
 function handleCellClick(event) {
-    if (!gameActive || gameState[event.target.getAttribute("data-index")] !== "" || currentPlayer === "O") return;
+    if (!gameActive || gameBoard[event.target.getAttribute("data-index")] !== "" || currentPlayer === "O") return;
 
     const cell = event.target;
     const cellIndex = cell.getAttribute("data-index");
 
-    gameState[cellIndex] = currentPlayer;
+    gameBoard[cellIndex] = currentPlayer;
     cell.textContent = currentPlayer;
     cell.classList.add("taken");
+
+    if (checkWin()) {
+        console.log(`Player ${currentPlayer} wins!`);
+        gameActive = false;
+        return;
+    } else if (gameBoard.every(cell => cell != "")) {
+        console.log("It's a tie!")
+        gameActive = false;
+        return;
+    }
+
+    currentPlayer = "O";
+    console.log("Computer's turn");
+    setTimeout(computerMove, 1000);
+}
+
+function computerMove() {
+    if (!gameActive) return;
+
+    let computerMove;
+
+    switch (gameDifficulty) {
+        case "easy":
+            computerMove = getEasyMove();
+            break;
+        case "medium":
+            computerMove = getMediumMove();
+            break;
+        case "hard":
+            computerMove = getHardMove();
+            break;
+    }
+
+    gameBoard[computerMove] = currentPlayer;
+    const cell = board.children[computerMove];
+    cell.textContent = currentPlayer;
+    cell.classList.add("taken");
+
+    if (checkWin()) {
+        console.log(`Computer wins!`);
+        gameActive = false;
+        return;
+    } else if (gameBoard.every(cell => cell != "")) {
+        console.log("It's a tie!")
+        gameActive = false;
+        return;
+    }
+
+    currentPlayer = "X";
 }
 
 
+
+function checkWin(currentPlayer, gameBoard = gameState) {
+    return winningPatterns.some(pattern => {
+        return pattern.every(index => gameBoard[index] === currentPlayer);
+    })
+}
 
 // Create board on page
 function createBoard() {
@@ -51,7 +106,7 @@ function createBoard() {
         cell.classList.add("cell");
         cell.setAttribute("data-index", i);
         cell.addEventListener("click", handleCellClick);
-        board.appendChild(cell);   
+        board.appendChild(cell);
     }
 }
 
