@@ -223,11 +223,30 @@ game.playMove(0, 0);
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const resetButton = document.getElementById("reset");
-    const game = gameBoard.createGameboard();
+    const resetButton = document.getElementById('reset');
+    const easyButton = document.getElementById('easy');
+    const mediumButton = document.getElementById('medium');
+    const hardButton = document.getElementById('hard');
+
+    let computer = computerPlayer.createComputerPlayer('Easy'); //Default option
 
     resetButton.addEventListener('click', function() {
         game.resetBoard();
         console.log('Board has been reset')
-    })
+    });
+
+    easyButton.addEventListener('click', function() {
+        computer = computerPlayer.createComputerPlayer('Easy');
+        console.log('Difficulty set to Easy');
+    });
+
+    mediumButton.addEventListener('click', function() {
+        computer = computerPlayer.createComputerPlayer('Medium');
+        console.log('Difficulty set to Medium');
+    });
+
+    hardButton.addEventListener('click', function() {
+        computer = computerPlayer.createComputerPlayer('Hard');
+        console.log('Difficulty set to Hard');
+    });
 })
