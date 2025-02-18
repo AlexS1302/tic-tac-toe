@@ -4,7 +4,7 @@ const board = document.querySelector(".board");
 // Create board on page
 function createBoard() {
     for (let i = 0; i < 9; i++) {
-        const cell = document.createElement("div");
+        let cell = document.createElement("div");
         cell.classList.add("cell");
         board.appendChild(cell);   
     }
@@ -172,7 +172,7 @@ const gameControl = (function() {
         }
 
         function addComputerPlayer(difficulty) {
-            computerPlayer = computerPlayer.createComputerPlayer(difficulty);
+            computerPlayerObj = computerPlayer.createComputerPlayer(difficulty);
         }
 
         function getCurrentPlayer() {
@@ -203,7 +203,7 @@ const gameControl = (function() {
                 }
             }
         }
-        return { addPlayer, getCurrentPlayer, playMove};
+        return { addPlayer, getCurrentPlayer, playMove, addComputerPlayer};
     }
     return { createGame };
 })();
@@ -219,4 +219,15 @@ game.addComputerPlayer('Easy');
 console.log(`Current Player: ${game.getCurrentPlayer().name}`);
 game.playMove(0, 0);
 
+// Event Listener
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const resetButton = document.getElementById("reset");
+    const game = gameBoard.createGameboard();
+
+    resetButton.addEventListener('click', function() {
+        game.resetBoard();
+        console.log('Board has been reset')
+    })
+})
