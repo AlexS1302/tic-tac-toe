@@ -2,6 +2,7 @@ const board = document.querySelector(".board");
 const easyButton = document.getElementById('easy');
 const mediumButton = document.getElementById('medium');
 const hardButton = document.getElementById('hard');
+const resetButton = document.getElementById('reset');
 
 let currentPlayer = "X";
 let gameActive = true;
@@ -15,6 +16,11 @@ const winningPatterns = [
 ];
 
 //Event Listeners
+
+resetButton.addEventListener('click', function() {
+    resetGame();
+    console.log('Board has been reset')
+});
 
 easyButton.addEventListener('click', function() {
     gameDifficulty = 'easy';
@@ -106,6 +112,21 @@ function checkWin(currentPlayer, gameBoard) {
     return winningPatterns.some(pattern => {
         return pattern.every(index => gameBoard[index] === currentPlayer);
     });
+}
+
+function resetGame() {
+    currentPlayer = Math.random() < 0.5 ? "X" : "O";
+    gameActive = true;
+    gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+    board.innerHTML = '';
+
+    createBoard();
+
+    if (currentPlayer === "O") {
+        console.log("Computer's turn");
+        setTimeout(computerMove, 1000);
+    }
 }
 
 // Create board on page
