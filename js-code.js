@@ -17,17 +17,17 @@ const winningPatterns = [
 //Event Listeners
 
 easyButton.addEventListener('click', function() {
-    let gameDifficulty = 'easy';
+    gameDifficulty = 'easy';
     console.log('Difficulty set to Easy');
 });
 
 mediumButton.addEventListener('click', function() {
-    let gameDifficulty = 'medium';
+    gameDifficulty = 'medium';
     console.log('Difficulty set to Medium');
 });
 
 hardButton.addEventListener('click', function() {
-    let gameDifficulty = 'hard';
+    gameDifficulty = 'hard';
     console.log('Difficulty set to Hard');
 });
 
@@ -41,7 +41,7 @@ function handleCellClick(event) {
     cell.textContent = currentPlayer;
     cell.classList.add("taken");
 
-    if (checkWin()) {
+    if (checkWin(currentPlayer, gameBoard)) {
         console.log(`Player ${currentPlayer} wins!`);
         gameActive = false;
         return;
@@ -78,7 +78,7 @@ function computerMove() {
     cell.textContent = currentPlayer;
     cell.classList.add("taken");
 
-    if (checkWin()) {
+    if (checkWin(currentPlayer, gameBoard)) {
         console.log(`Computer wins!`);
         gameActive = false;
         return;
@@ -91,12 +91,21 @@ function computerMove() {
     currentPlayer = "X";
 }
 
+function getEasyMove() {
+    const availableMoves = gameBoard
+    .map((val, index) => (val === "" ? index : null))
+    .filter(val => val !== null);
+
+    return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+}
 
 
-function checkWin(currentPlayer, gameBoard = gameState) {
+function checkWin(currentPlayer, gameBoard) {
+    console.log("Current Player:", currentPlayer);
+    console.log("Game Board:", gameBoard);
     return winningPatterns.some(pattern => {
         return pattern.every(index => gameBoard[index] === currentPlayer);
-    })
+    });
 }
 
 // Create board on page
