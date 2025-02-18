@@ -44,6 +44,12 @@ h1 {
     background-color: #f9f9f9;
     border-radius: 20px;
     border: 1px solid lightgrey;
+    color: #a3cbe8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5em;
+    font-weight: bold;
 }
 
 .difficulty-container {
@@ -63,7 +69,7 @@ button {
     font-size: 1.1em;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
     will-change: transform;
-    background-image: linear-gradient(to right, #A3CBE8 0%, #A5E1E0 51%, #A3CBE8 100%);
+    background-image: linear-gradient(to right, #a3cbe8 0%, #a5e1e0 51%, #a3cbe8 100%);
     transition-duration: 0.5s;
     background-size: 200% auto;
     cursor: pointer;
