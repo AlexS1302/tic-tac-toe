@@ -6,7 +6,7 @@ const resetButton = document.getElementById('reset');
 
 let currentPlayer = "X";
 let gameActive = true;
-let gameDifficulty = 'easy' //Default
+let gameDifficulty = 'hard' //Default
 let gameBoard = ["", "", "", "", "", "", "", "", ""];
 
 const winningPatterns = [
@@ -37,6 +37,8 @@ hardButton.addEventListener('click', function() {
     console.log('Difficulty set to Hard');
 });
 
+
+// Get Player Move
 function handleCellClick(event) {
     if (!gameActive || gameBoard[event.target.getAttribute("data-index")] !== "" || currentPlayer === "O") return;
 
@@ -62,6 +64,7 @@ function handleCellClick(event) {
     setTimeout(computerMove, 1000);
 }
 
+//Get Computer Move
 function computerMove() {
     if (!gameActive) return;
 
@@ -97,6 +100,8 @@ function computerMove() {
     currentPlayer = "X";
 }
 
+
+// Difficulties
 function getEasyMove() {
     const availableMoves = gameBoard
     .map((val, index) => (val === "" ? index : null))
@@ -105,6 +110,51 @@ function getEasyMove() {
     return availableMoves[Math.floor(Math.random() * availableMoves.length)];
 }
 
+function getMediumMove() {
+    return getMove(0.3, getEasyMove);
+}
+
+function getHardMove() {
+    return getMove(0.1, getMediumMove);
+}
+
+function getMove(threshold, fallbackMove) {
+    const shouldBlock = Math.random() > threshold;
+    let move;
+
+    if (shouldBlock) {
+        move = blockWinningMove();
+        if (move !== -1) {
+            return move;
+        }
+    }
+    return fallbackMove();
+}
+
+function blockWinningMove() {
+    for (let i = 0; i < 9; i++) {
+        if (gameBoard[i] === "") {
+            // Check if O can win
+            gameBoard[i] = "O";
+            if (checkWin("O", gameBoard)) {
+                return i;
+            } else {
+                gameBoard[i] = "";
+            }
+
+            // Check if X can win
+            gameBoard[i] = "X";
+            if (checkWin("X", gameBoard)) {
+                gameBoard[i] = "O";
+                return i;
+            } else {
+                gameBoard[i] = "";
+            }
+            
+        }
+    }
+    return -1
+}
 
 function checkWin(currentPlayer, gameBoard) {
     console.log("Current Player:", currentPlayer);
