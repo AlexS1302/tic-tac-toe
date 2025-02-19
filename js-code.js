@@ -55,7 +55,7 @@ function handleCellClick(event) {
     cell.classList.add("taken");
 
     if (checkWin(currentPlayer, gameBoard)) {
-        message.textContent = `Player ${currentPlayer} wins!`;
+        message.textContent = `Player wins!`;
         message.classList.remove('ellipsis');
         gameActive = false;
         return;
