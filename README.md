@@ -23,4 +23,4 @@ This is a Tic Tac Toe game that allows you to play against a computer opponent a
 You can view this project [here](https://alexs1302.github.io/tic-tac-toe/)!
 
 ## Credits
-This Project was created as part of The Odin Project's curriculum, a free online resource for learning web development.
+This project was created as part of The Odin Project's curriculum, a free online resource for learning web development.
