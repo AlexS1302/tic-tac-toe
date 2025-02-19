@@ -22,7 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 55px;
+    gap: 50px;
 }
 
 h1 {
@@ -50,15 +50,42 @@ h1 {
     align-items: center;
     font-size: 3.5em;
     font-weight: bold;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+.cell.taken {
+    pointer-events: none;
+}
+
+.cell:hover {
+    transform: scale(1.05);
+}
+
+#message {
+    margin: 0;
+    color: #fff;
+    font-size: 1.3em;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.ellipsis::after {
+    content: "...";
+    animation: blink 1s infinite;
+}
+
+#reset {
+    background-image: linear-gradient(to right, #ddd6f3 0%, #faaca8  51%, #ddd6f3  100%)
 }
 
 .difficulty-container {
     display: flex;
     gap: 30px;
-}
-
-#reset {
-    background-image: linear-gradient(to right, #ddd6f3 0%, #faaca8  51%, #ddd6f3  100%)
 }
 
 button { 
@@ -81,11 +108,4 @@ button:hover {
     color: #fff;
 }
 
-.cell {
-    transition-duration: 0.3s;
-    cursor: pointer;
-}
 
-.cell:hover {
-    transform: scale(1.05);
-}

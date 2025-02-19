@@ -3,6 +3,7 @@ const easyButton = document.getElementById('easy');
 const mediumButton = document.getElementById('medium');
 const hardButton = document.getElementById('hard');
 const resetButton = document.getElementById('reset');
+let message = document.getElementById("message");
 
 let currentPlayer = "X";
 let gameActive = true;
@@ -19,22 +20,26 @@ const winningPatterns = [
 
 resetButton.addEventListener('click', function() {
     resetGame();
-    console.log('Board has been reset')
+    console.log('Game has been reset')
+    message.classList.remove('ellipsis');
 });
 
 easyButton.addEventListener('click', function() {
     gameDifficulty = 'easy';
-    console.log('Difficulty set to Easy');
+    message.textContent = "Difficulty set to Easy";
+    message.classList.remove('ellipsis');
 });
 
 mediumButton.addEventListener('click', function() {
     gameDifficulty = 'medium';
-    console.log('Difficulty set to Medium');
+    message.textContent = "Difficulty set to Medium";
+    message.classList.remove('ellipsis');
 });
 
 hardButton.addEventListener('click', function() {
     gameDifficulty = 'hard';
-    console.log('Difficulty set to Hard');
+    message.textContent = "Difficulty set to Hard";
+    message.classList.remove('ellipsis');
 });
 
 
@@ -50,17 +55,20 @@ function handleCellClick(event) {
     cell.classList.add("taken");
 
     if (checkWin(currentPlayer, gameBoard)) {
-        console.log(`Player ${currentPlayer} wins!`);
+        message.textContent = `Player ${currentPlayer} wins!`;
+        message.classList.remove('ellipsis');
         gameActive = false;
         return;
     } else if (gameBoard.every(cell => cell != "")) {
-        console.log("It's a tie!")
+        message.textContent = `It's a tie!`;
+        message.classList.remove('ellipsis');
         gameActive = false;
         return;
     }
 
     currentPlayer = "O";
-    console.log("Computer's turn");
+    message.textContent = `Computer's turn`;
+    message.classList.add('ellipsis');
     setTimeout(computerMove, 1000);
 }
 
@@ -88,16 +96,20 @@ function computerMove() {
     cell.classList.add("taken");
 
     if (checkWin(currentPlayer, gameBoard)) {
-        console.log(`Computer wins!`);
+        message.textContent = `Computer wins!`;
+        message.classList.remove('ellipsis');
         gameActive = false;
         return;
     } else if (gameBoard.every(cell => cell != "")) {
-        console.log("It's a tie!")
+        message.textContent = `It's a tie!`;
+        message.classList.remove('ellipsis');
         gameActive = false;
         return;
     }
 
     currentPlayer = "X";
+    message.textContent = `Player's turn`;
+    message.classList.add('ellipsis');
 }
 
 
@@ -157,8 +169,6 @@ function blockWinningMove() {
 }
 
 function checkWin(currentPlayer, gameBoard) {
-    console.log("Current Player:", currentPlayer);
-    console.log("Game Board:", gameBoard);
     return winningPatterns.some(pattern => {
         return pattern.every(index => gameBoard[index] === currentPlayer);
     });
@@ -166,18 +176,29 @@ function checkWin(currentPlayer, gameBoard) {
 
 function resetGame() {
     currentPlayer = Math.random() < 0.5 ? "X" : "O";
-    gameActive = true;
+    gameActive = false;
     gameBoard = ["", "", "", "", "", "", "", "", ""];
 
+    // Reset page board and update the message
+    message.textContent = "Game has been reset";
     board.innerHTML = '';
-
     createBoard();
 
-    if (currentPlayer === "O") {
-        console.log("Computer's turn");
-        setTimeout(computerMove, 1000);
-    }
+    // Activate game after short delay
+    setTimeout(function() {
+        gameActive = true;
+        message.textContent = currentPlayer === "X" ? "Player's turn" : "Computer's turn";
+        message.classList.add('ellipsis');
+        
+
+        if (currentPlayer === "O") {
+            message.textContent = `Computer's turn`;
+            message.classList.add('ellipsis');
+            setTimeout(computerMove, 1000);
+        }
+    }, 1000);
 }
+
 
 // Create board on page
 function createBoard() {
@@ -191,4 +212,6 @@ function createBoard() {
 }
 
 createBoard();
+message.textContent = currentPlayer === "X" ? "Player's turn" : "Computer's turn";
+message.classList.add('ellipsis');
 
